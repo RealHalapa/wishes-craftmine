@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Wishes Minecraft</title>
+  <style>
+    /* Add some basic styling to our game container */
+    #game-container {
+      width: 800px;
+      height: 600px;
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+    <h1>Wishes CraftMine<h1>
+  <div id="game-container">
+    <canvas id="game-canvas" width="800" height="600"></canvas>
+  </div>
+  <script>
+    // Get the canvas element
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Set up the game grid
+    const gridSize = 20;
+    const grid = [];
+    for (let i = 0; i < gridSize; i++) {
+      grid[i] = [];
+      for (let j = 0; j < gridSize; j++) {
+        grid[i][j] = 0; // 0 represents an empty block
+      }
+    }
+
+    // Set up the player position
+    let playerX = 10;
+    let playerY = 10;
+
+    // Set up the block colors
+    const blockColors = {
+      '1': 'red', // Red block
+      '2': 'blue', // Blue block
+      '3': 'green', // Green block
+      '4': 'yellow', // Yellow block
+      '5': 'white'
+    };
+
+    // Set up the current block color
+    let currentBlockColor = '1'; // Default to red block
+
+    // Render the game grid
+    function render() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < gridSize; i++) {
+        for (let j = 0; j < gridSize; j++) {
+          if (grid[i][j] === 0) {
+            ctx.fillStyle = 'white';
+          } else {
+            ctx.fillStyle = blockColors[grid[i][j]];
+          }
+          ctx.fillRect(i * 20, j * 20, 20, 20);
+        }
+      }
+      ctx.fillStyle = 'red';
+      ctx.fillRect(playerX * 20, playerY * 20, 20, 20);
+    }
+
+    // Handle keyboard input
+    document.addEventListener('keydown', (event) => {
+      switch (event.key) {
+        case 'ArrowLeft':
+          playerX = Math.max(0, playerX - 1); // Ensure playerX doesn't go below 0
+          break;
+        case 'ArrowRight':
+          playerX = Math.min(gridSize - 1, playerX + 1); // Ensure playerX doesn't go above gridSize - 1
+          break;
+        case 'ArrowUp':
+          playerY = Math.max(0, playerY - 1); // Ensure playerY doesn't go below 0
+          break;
+        case 'ArrowDown':
+          playerY = Math.min(gridSize - 1, playerY + 1); // Ensure playerY doesn't go above gridSize - 1
+          break;
+        case '1':
+          currentBlockColor = '1'; // Red block
+          break;
+        case '2':
+          currentBlockColor = '2'; // Blue block
+          break;
+        case '3':
+          currentBlockColor = '3'; // Green block
+          break;
+        case '4':
+          currentBlockColor = '4'; // Yellow block
+          break;
+        case '5':
+            currentBlockColor = '5'
+            break;
+        case ' ':
+          // Place a block at the current player position
+          if (playerX >= 0 && playerX < gridSize && playerY >= 0 && playerY < gridSize) {
+            grid[playerX][playerY] = currentBlockColor;
+          }
+          break;
+      }
+    });
+
+    // Update and render the game
+    setInterval(() => {
+      render();
+    }, 1000 / 60);
+  </script>
+  <h1>tutorial</h1>
+  <p>use arrowkeys to move your cursor use space to place a block use 1 2 3 4 5 to change the color of the block<p>
+</body>
+</html>
